@@ -2,7 +2,8 @@ const dialogflow = require('dialogflow');
 const structjson = require('structjson')
 
 // Models
-const Registration = require('../models/Registration')
+const ChatHistory = require('../models/ChatHistory');
+const Message = require('../models/Message');
 
 // keys
 const {googleProjectID, dialogFlowSessionID, dialogFlowSessionLanguageCode, googleClientEmail, googlePrivateKey} = require('./keys')
@@ -36,7 +37,7 @@ const textQuery = async (text, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response)
+    response = await self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -61,51 +62,117 @@ const eventQuery = async (event, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response)
+    response = await self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
     return result    
 }
 
-const handleAction = (response) => {
+const handleAction = async (response, userId) => {
     let self = module.exports;
-    let queryResult = response[0].queryResult;
+    const query = response[0].queryResult;
 
-    switch (queryResult.action) {
-        case "RestaurantRecommendations.RestaurantRecommendations-yes":
-            if (queryResult.allRequiredParamsPresent) {
-                self.saveRegistration(queryResult.parameters.fields);          
-            }
-            break;
+    // message options for saving.
+    const userText = query.queryText;
+    const botText = query.fulfillmentText;
+    
+    try {
+      // find session in database or create a new session
+      const sessionHistory = await ChatHistory.findOne({_id: userId}) || await self.createSession(userId)
+      
+      // save user message
+      if (userText != 'Welcome') {
+        const userMessage = await self.saveUserMessage(userText);
+        sessionHistory.messages.push(userMessage);
+      }
+      // save bot messages
+      const splitMessages = botText.split(".", 5)
+      splitMessages.map(async splitMessage => {
+        if (splitMessage.length  > 1) {
+          const botMessage = await self.saveBotMessage(splitMessage)
+          sessionHistory.messages.push(botMessage);
+        }
+      });
+
+      if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.cards) {
+        const botCards = query.webhookPayload.fields.cards.listValue.values;
+        const botMessage = await self.saveBotMessage(null, null, botCards)
+        sessionHistory.messages.push(botMessage);
+      }
+
+      if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.quickReplies) {
+        const botQuickReplies = query.webhookPayload.fields.quickReplies.listValue.values;
+        const botMessage = await self.saveBotMessage(null, botQuickReplies, null)
+        sessionHistory.messages.push(botMessage);
+      }
+      sessionHistory.save();
+    } catch (error) {
+      console.log(error)
     }
+
     return response;
 }
 
-const saveRegistration = async (fields) => {
+const createSession = async (userId) => {
+  const session = await ChatHistory.create({
+    _id: userId,
+    sessions: 1,
+    messages: []
+  })
+  return session
+}
 
-    const alreadyexists = await Registration.findOne({
-        email: fields.email.stringValue
-    })
+const saveUserMessage = async (userText) => {
+  const message = await Message.create({
+    speaker: 'me',
+    msg: userText
+  })
+  return message
+}
 
-    if (!alreadyexists) {
-         const registration = new Registration({
-        name: fields.name.stringValue,
-        email: fields.email.stringValue
-    })
-        try {
-        await registration.save();
-        } catch (error) {
-            console.log(error)
-        }
+const saveBotMessage = async (botText, botQuickReplies, botCards) => {
+  const message = new Message({
+    speaker: 'the MRS',
+    msg: botText,
+    cards: botCards ? [] : null,
+    quickReplies: botQuickReplies ? [] : null
+  })
+
+  if (botCards) {
+    message.cards.push(...botCards);
+  }
+
+  if (botQuickReplies) {
+    message.quickReplies.push(...botQuickReplies);
+  }
+  await message.save()
+  return message;
+}
+
+const getChatHistory = async (userId) => {
+
+  try {
+    const sessionHistory = await ChatHistory.findById(userId).populate('messages');
+    if (!sessionHistory) {
+      return false       
+    } else {
+      await sessionHistory.update({ $inc: { sessions: 1 }})
+      sessionHistory.save
+      return sessionHistory
     }
-   
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {
     textQuery,
     eventQuery,
     handleAction,
-    saveRegistration
+    getChatHistory,
+    createSession,
+    saveUserMessage,
+    saveBotMessage
 }
 
