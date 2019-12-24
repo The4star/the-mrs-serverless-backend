@@ -37,7 +37,7 @@ const textQuery = async (text, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response, userId)
+    self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -62,7 +62,7 @@ const eventQuery = async (event, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response, userId)
+    self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -157,8 +157,8 @@ const getChatHistory = async (userId) => {
     if (!sessionHistory) {
       return false       
     } else {
-      await sessionHistory.update({ $inc: { sessions: 1 }})
-      sessionHistory.save
+      await sessionHistory.updateOne({ $inc: { sessions: 1 }})
+      sessionHistory.save()
       return sessionHistory
     }
   } catch (error) {
@@ -175,4 +175,3 @@ module.exports = {
     saveUserMessage,
     saveBotMessage
 }
-
