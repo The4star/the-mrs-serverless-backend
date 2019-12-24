@@ -37,7 +37,7 @@ const textQuery = async (text, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    self.handleAction(response, userId)
+    response = await self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -62,7 +62,7 @@ const eventQuery = async (event, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    self.handleAction(response, userId)
+    response = await self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -175,3 +175,4 @@ module.exports = {
     saveUserMessage,
     saveBotMessage
 }
+
