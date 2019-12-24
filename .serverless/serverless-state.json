@@ -159,7 +159,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/mrs-serverless-backend/dev/1577070362174-2019-12-23T03:06:02.174Z/mrs-serverless-backend.zip"
+                "S3Key": "serverless/mrs-serverless-backend/dev/1577155150651-2019-12-24T02:39:10.651Z/mrs-serverless-backend.zip"
               },
               "FunctionName": "mrs-serverless-backend-dev-app",
               "Handler": "server.server",
@@ -178,14 +178,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionGCDgPJhWt4HpFCjp9RHaUo7WpDC1Z8UgoXVtxIY6F2Y": {
+          "AppLambdaVersion57RSC5RwCafZfzj1q61Gqj9WShyvNn6OrQpyDDtV8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "3+ZjbGivZAgYvLGCwpLDedQDK0YPIGIbQT1mOiccfC0="
+              "CodeSha256": "KECjHANF6VctTA/7Jt0L7h45DYPmfVVznxhZ6nbUUdo="
             }
           },
           "ApiGatewayRestApi": {
@@ -396,7 +396,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1577070353785": {
+          "ApiGatewayDeployment1577155121075": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -458,7 +458,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionGCDgPJhWt4HpFCjp9RHaUo7WpDC1Z8UgoXVtxIY6F2Y"
+              "Ref": "AppLambdaVersion57RSC5RwCafZfzj1q61Gqj9WShyvNn6OrQpyDDtV8"
             }
           },
           "ServiceEndpoint": {
@@ -626,7 +626,7 @@
     "artifact": "/media/the4star/DATA/Dropbox/development/projects_and_creations/the-mrs/mrs-serverless-backend/.serverless/mrs-serverless-backend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/mrs-serverless-backend/dev/1577070362174-2019-12-23T03:06:02.174Z",
+    "artifactDirectoryName": "serverless/mrs-serverless-backend/dev/1577155150651-2019-12-24T02:39:10.651Z",
     "artifact": "mrs-serverless-backend.zip"
   }
 }
