@@ -39,7 +39,7 @@ const textQuery = async (text, userId, parameters = {}) => {
     let response = await sessionClient.detectIntent(request);
     response = await self.handleAction(response, userId)
 
-    result = response[0].queryResult; 
+    await response[0].queryResult; 
 
     return result    
 }
@@ -62,7 +62,7 @@ const eventQuery = async (event, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response, userId)
+    await self.handleAction(response, userId)
 
     result = response[0].queryResult; 
 
@@ -88,17 +88,17 @@ const handleAction = async (response, userId) => {
       }
       // save bot messages
       const splitMessages = botText.split(".", 5)
-      splitMessages.map(async splitMessage => {
+      splitMessages.forEach(async splitMessage => {
         if (splitMessage.length  > 1) {
           const botMessage = await self.saveBotMessage(splitMessage)
-          sessionHistory.messages.push(botMessage);
+          await sessionHistory.messages.push(botMessage);
         }
       });
 
       if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.cards) {
         const botCards = query.webhookPayload.fields.cards.listValue.values;
         const botMessage = await self.saveBotMessage(null, null, botCards)
-        sessionHistory.messages.push(botMessage);
+        await sessionHistory.messages.push(botMessage);
       }
 
       if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.quickReplies) {

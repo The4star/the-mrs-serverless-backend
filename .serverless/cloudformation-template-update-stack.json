@@ -145,7 +145,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/mrs-serverless-backend/dev/1577155150651-2019-12-24T02:39:10.651Z/mrs-serverless-backend.zip"
+          "S3Key": "serverless/mrs-serverless-backend/dev/1577155957710-2019-12-24T02:52:37.710Z/mrs-serverless-backend.zip"
         },
         "FunctionName": "mrs-serverless-backend-dev-app",
         "Handler": "server.server",
@@ -164,14 +164,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersion57RSC5RwCafZfzj1q61Gqj9WShyvNn6OrQpyDDtV8": {
+    "AppLambdaVersionJI6QtDS75sNe1CGjuF3Iz11xJlskEhxOW6T60cUE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "KECjHANF6VctTA/7Jt0L7h45DYPmfVVznxhZ6nbUUdo="
+        "CodeSha256": "51aX2n35NoN4c57DHvT9Is7oMmICEAVa5qCBtzlb0PM="
       }
     },
     "ApiGatewayRestApi": {
@@ -382,7 +382,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1577155121075": {
+    "ApiGatewayDeployment1577155946190": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -444,7 +444,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersion57RSC5RwCafZfzj1q61Gqj9WShyvNn6OrQpyDDtV8"
+        "Ref": "AppLambdaVersionJI6QtDS75sNe1CGjuF3Iz11xJlskEhxOW6T60cUE"
       }
     },
     "ServiceEndpoint": {
