@@ -99,7 +99,8 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "logs:CreateLogStream"
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup"
                   ],
                   "Resource": [
                     {
@@ -145,7 +146,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/mrs-serverless-backend/dev/1577155957710-2019-12-24T02:52:37.710Z/mrs-serverless-backend.zip"
+          "S3Key": "serverless/mrs-serverless-backend/dev/1577414536793-2019-12-27T02:42:16.793Z/mrs-serverless-backend.zip"
         },
         "FunctionName": "mrs-serverless-backend-dev-app",
         "Handler": "server.server",
@@ -164,14 +165,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionJI6QtDS75sNe1CGjuF3Iz11xJlskEhxOW6T60cUE": {
+    "AppLambdaVersionSnkXXoQGTEXUSjw0dm0a4KPJXiOkQFTMmzywIIVkzM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "51aX2n35NoN4c57DHvT9Is7oMmICEAVa5qCBtzlb0PM="
+        "CodeSha256": "HzZF9JTGY0FjYLYB5WgSrpzCSuVlSLk2jWqCkNCbGHc="
       }
     },
     "ApiGatewayRestApi": {
@@ -382,7 +383,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1577155946190": {
+    "ApiGatewayDeployment1577414507998": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -401,9 +402,16 @@
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
-          "Fn::GetAtt": [
-            "AppLambdaFunction",
-            "Arn"
+          "Fn::Join": [
+            ":",
+            [
+              {
+                "Fn::GetAtt": [
+                  "AppLambdaFunction",
+                  "Arn"
+                ]
+              }
+            ]
           ]
         },
         "Action": "lambda:InvokeFunction",
@@ -444,7 +452,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionJI6QtDS75sNe1CGjuF3Iz11xJlskEhxOW6T60cUE"
+        "Ref": "AppLambdaVersionSnkXXoQGTEXUSjw0dm0a4KPJXiOkQFTMmzywIIVkzM"
       }
     },
     "ServiceEndpoint": {
