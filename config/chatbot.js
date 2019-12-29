@@ -87,13 +87,10 @@ const handleAction = async (response, userId) => {
         sessionHistory.messages.push(userMessage);
       }
       // save bot messages
-      const splitMessages = botText.split(".", 5)
-      splitMessages.forEach(async splitMessage => {
-        if (splitMessage.length  > 1) {
-          const botMessage = await self.saveBotMessage(splitMessage)
-          await sessionHistory.messages.push(botMessage);
-        }
-      });
+      if (botText) {
+        const botMessage = await self.saveBotMessage(botText);
+        sessionHistory.messages.push(botMessage);
+      }
 
       if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.cards) {
         const botCards = query.webhookPayload.fields.cards.listValue.values;
