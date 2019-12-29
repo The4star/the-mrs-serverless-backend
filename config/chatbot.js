@@ -37,9 +37,9 @@ const textQuery = async (text, userId, parameters = {}) => {
     };
 
     let response = await sessionClient.detectIntent(request);
-    response = await self.handleAction(response, userId)
+    await self.handleAction(response, userId)
 
-    await response[0].queryResult; 
+    result = response[0].queryResult; 
 
     return result    
 }
@@ -86,16 +86,16 @@ const handleAction = async (response, userId) => {
         const userMessage = await self.saveUserMessage(userText);
         sessionHistory.messages.push(userMessage);
       }
-      // save bot messages
+
       if (botText) {
-        const botMessage = await self.saveBotMessage(botText);
-        sessionHistory.messages.push(botMessage);
+        const botmessage = await self.saveBotMessage(botText);
+        sessionHistory.messages.push(botmessage);
       }
 
       if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.cards) {
         const botCards = query.webhookPayload.fields.cards.listValue.values;
         const botMessage = await self.saveBotMessage(null, null, botCards)
-        await sessionHistory.messages.push(botMessage);
+        sessionHistory.messages.push(botMessage);
       }
 
       if (query.webhookPayload && query.webhookPayload.fields && query.webhookPayload.fields.quickReplies) {
@@ -121,10 +121,11 @@ const createSession = async (userId) => {
 }
 
 const saveUserMessage = async (userText) => {
-  const message = await Message.create({
+  const message = new Message({
     speaker: 'me',
     msg: userText
   })
+  await message.save()
   return message
 }
 
@@ -172,4 +173,3 @@ module.exports = {
     saveUserMessage,
     saveBotMessage
 }
-

@@ -160,7 +160,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/mrs-serverless-backend/dev/1577414536793-2019-12-27T02:42:16.793Z/mrs-serverless-backend.zip"
+                "S3Key": "serverless/mrs-serverless-backend/dev/1577582891118-2019-12-29T01:28:11.118Z/mrs-serverless-backend.zip"
               },
               "FunctionName": "mrs-serverless-backend-dev-app",
               "Handler": "server.server",
@@ -179,14 +179,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionSnkXXoQGTEXUSjw0dm0a4KPJXiOkQFTMmzywIIVkzM": {
+          "AppLambdaVersion28Ohrx9lOXPtVXqtgvppZUZKaJCpFGWVEbC1zD8KWw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "HzZF9JTGY0FjYLYB5WgSrpzCSuVlSLk2jWqCkNCbGHc="
+              "CodeSha256": "9HmYHYrTECVpBLF2dm9Et/fTHN4zjMXYkvmOphTPsU0="
             }
           },
           "ApiGatewayRestApi": {
@@ -397,7 +397,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1577414507998": {
+          "ApiGatewayDeployment1577582871978": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -466,7 +466,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionSnkXXoQGTEXUSjw0dm0a4KPJXiOkQFTMmzywIIVkzM"
+              "Ref": "AppLambdaVersion28Ohrx9lOXPtVXqtgvppZUZKaJCpFGWVEbC1zD8KWw"
             }
           },
           "ServiceEndpoint": {
@@ -627,7 +627,7 @@
         "timeout": 6,
         "runtime": "nodejs10.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionSnkXXoQGTEXUSjw0dm0a4KPJXiOkQFTMmzywIIVkzM"
+        "versionLogicalId": "AppLambdaVersion28Ohrx9lOXPtVXqtgvppZUZKaJCpFGWVEbC1zD8KWw"
       }
     },
     "serviceFilename": "serverless.yml",
@@ -635,7 +635,7 @@
     "artifact": "/media/the4star/DATA/Dropbox/development/projects_and_creations/the-mrs/mrs-serverless-backend/.serverless/mrs-serverless-backend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/mrs-serverless-backend/dev/1577414536793-2019-12-27T02:42:16.793Z",
+    "artifactDirectoryName": "serverless/mrs-serverless-backend/dev/1577582891118-2019-12-29T01:28:11.118Z",
     "artifact": "mrs-serverless-backend.zip"
   }
 }
